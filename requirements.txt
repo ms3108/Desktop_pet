@@ -1,0 +1,6 @@
+tk
+Pillow
+psutil
+speechrecognition
+pyaudio
+pywin32
