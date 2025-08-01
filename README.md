@@ -23,3 +23,21 @@ A cute, animated desktop companion with attitude. Built using Python and Tkinter
 - Dependencies (install with pip):
   ```bash
   pip install -r requirements.txt
+
+📁 Project Structure
+Desktop_Pet/
+├── assets/
+│   ├── defaultIdle/
+│   ├── idle1/
+│   ├── dance/
+├── main.py
+├── chatbot.py
+├── voice_listen.py
+├── spotify_react.py
+├── context_talk.py
+├── fullscreen_check.py
+├── config.json
+└── README.md
+
+⚙️ How to Run
+python main.py
