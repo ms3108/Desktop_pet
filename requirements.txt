@@ -4,3 +4,4 @@ psutil
 speechrecognition
 pyaudio
 pywin32
+groq
