@@ -7,9 +7,23 @@ from fullscreen_check import is_fullscreen
 from context_talk import get_context_phrase
 import random
 import os
+import sys
+import ctypes
+import platform
+import pyperclip
 
 
-# Main pet app class
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller .exe """
+    try:
+        base_path = sys._MEIPASS
+    except AttributeError:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
+
+
+
 class DesktopPet:
     def __init__(self, root):
         self.root = root
@@ -30,10 +44,12 @@ class DesktopPet:
         self.sprite_img = self.canvas.create_image(150, 150, image=self.sprite[self.sprite_index])
 
         self.prev_song = None
+        self.last_response = ""
 
         self.animate()
         self.schedule_all()
         listen_background(self.handle_voice_input)
+        self.pet_talking_enabled = True
 
     def animate(self):
         if not self.sprite:
@@ -47,9 +63,10 @@ class DesktopPet:
         self.root.after(5000, self.music_check)
         self.root.after(2000, self.fullscreen_check)
 
+
     def context_talk(self):
         phrase = get_context_phrase()
-        delay = int(random.gauss(15000, 3000))  # ~15s with some randomness
+        delay = int(random.gauss(60000, 3000))  # ~15s with some randomness
 
         if phrase:
             print("Pet says:", phrase)
@@ -95,14 +112,59 @@ class DesktopPet:
         bubble.attributes("-topmost", True)
         bubble.after(5000, bubble.destroy)
 
+    TRIGGER_KEYWORD = "tell me"
+
     def handle_voice_input(self, text):
+        text = text.lower().strip()
         print("You said:", text)
 
-        self.show_text_bubble(f"You: {text}", user=True)
+        if "answer this" in text or "what's on clipboard" in text:
+            clipboard_text = pyperclip.paste().strip()
 
-        response = ask_pet(text)
+            if clipboard_text:
+                self.show_text_bubble("Reading clipboard... *meow*")
 
-        self.show_text_bubble(response)
+                response = ask_pet(clipboard_text)
+                self.last_response = response
+                self.show_text_bubble(response)
+            else:
+                self.show_text_bubble("Clipboard is empty. What am I supposed to read? *tail flick*")
+            return
+
+        if "copy that" in text or "copy last response" in text:
+            if self.last_response:
+                pyperclip.copy(self.last_response)
+                self.show_text_bubble("Copied it. Happy now?")
+            else:
+                self.show_text_bubble("Nothing to copy, genius.")
+            return
+        if "lock computer" in text or "lock screen" in text:
+            self.show_text_bubble("Locking your computer 🔒")
+            self.lock_computer()
+            return
+
+        if "kill yourself" in text or "go to sleep" in text or "exit pet" in text:
+            self.show_text_bubble("Goodbye! 👋")
+            self.shutdown_pet()
+            return
+
+        if "stop talking" in text:
+            self.pet_talking_enabled = False
+            self.show_text_bubble("Okay, I'll stay quiet.")
+            return
+
+        if "start talking" in text:
+            self.pet_talking_enabled = True
+            self.show_text_bubble("I'm back! Missed me?")
+            return
+
+        if self.pet_talking_enabled:
+            self.show_text_bubble(f"You: {text}", user=True)
+            response = ask_pet(text)
+            self.last_response = response
+            self.show_text_bubble(response)
+        else:
+            print("Pet is muted — no response.")
 
 
     def load_animations(self):
@@ -110,18 +172,14 @@ class DesktopPet:
 
         def load_frames_from_folder(folder_path):
             frames = []
-            frame_files = sorted(os.listdir(folder_path))
+            full_path = resource_path(folder_path)
+            frame_files = sorted(os.listdir(full_path))
             for filename in frame_files:
                 if filename.lower().endswith(('.png', '.gif')):
-                    frame_path = os.path.join(folder_path, filename)
+                    frame_path = os.path.join(full_path, filename)
                     try:
                         img = Image.open(frame_path).convert("RGBA")
-
-                        scale_factor = 2.8
-                        new_size = (int(img.width * scale_factor), int(img.height * scale_factor))
-
-                        img = img.resize(new_size, Image.NEAREST)  # pixelated style
-
+                        img = img.resize((105, 105), Image.NEAREST)  # 0.7x smaller size
                         frames.append(ImageTk.PhotoImage(img))
                     except Exception as e:
                         print(f"Error loading {frame_path}: {e}")
@@ -157,18 +215,30 @@ class DesktopPet:
         self.sprite_index = 0
 
     def switch_idle_randomly(self):
-        # 70% chance to use default idle, 30% to use one of the random alts
+
         if random.random() < 0.85 or not self.animations["idle_alts"]:
             self.sprite = self.animations["idle_default"]
         else:
             self.sprite = random.choice(self.animations["idle_alts"])
 
         self.sprite_index = 0
-        self.root.after(25000, self.switch_idle_randomly)  # every 15 seconds
+        self.root.after(25000, self.switch_idle_randomly)
+
+
+    def shutdown_pet(self):
+        self.root.destroy()
+
+
+
+    def lock_computer(self):
+        system = platform.system()
+        if system == "Windows":
+            ctypes.windll.user32.LockWorkStation()
+        else:
+            self.show_text_bubble("Can't lock this system 😓")
 
 
 if __name__ == '__main__':
     root = tk.Tk()
     app = DesktopPet(root)
-
     root.mainloop()

@@ -1,0 +1,38 @@
+# Virtual Environment
+.venv/
+venv/
+env/
+
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Build files
+build/
+dist/
+*.egg-info/
+*.spec
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Config files with sensitive data
+config.json
+
+# Cache and temporary files
+.cache
+*.log
+*.tmp
+
+# Output files
+output/

@@ -1,0 +1,9 @@
+tkinter
+Pillow
+pyperclip
+groq
+spotipy
+SpeechRecognition
+pyaudio
+requests
+pywin32
