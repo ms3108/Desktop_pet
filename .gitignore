@@ -12,7 +12,8 @@ __pycache__/
 
 # Build files
 build/
-dist/
+dist/*
+!dist/main.exe
 *.egg-info/
 *.spec
 
