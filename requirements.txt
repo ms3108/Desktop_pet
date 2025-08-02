@@ -1,7 +1,9 @@
-tk
-Pillow
-psutil
-speechrecognition
-pyaudio
+tkinter 
+Pillow 
+pyperclip 
+groq 
+spotipy 
+SpeechRecognition
+pyaudio 
+requests 
 pywin32
-groq
