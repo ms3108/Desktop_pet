@@ -81,7 +81,7 @@ A cute, animated desktop companion with attitude! This sarcastic cat-shaped pet 
 
 ## ⚙️ Configuration
 
-Create a `config.json` file in the project root:
+Open the `config.json` file in the project root:
 
 ```json
 {
@@ -93,7 +93,7 @@ Create a `config.json` file in the project root:
   }
 }
 ```
-
+Replace with your own values
 ### API Keys Setup
 
 #### Groq API (Required for AI responses)
