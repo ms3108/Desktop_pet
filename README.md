@@ -69,7 +69,7 @@ A cute, animated desktop companion with attitude! This sarcastic cat-shaped pet 
    ```
 
 3. **Set up configuration**
-   - Copy `config.json.example` to `config.json`
+   - Copy `config.json.template` to `config.json`
    - Add your API keys (see Configuration section)
 
 4. **Run the application**
