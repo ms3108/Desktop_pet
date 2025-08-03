@@ -1,6 +1,19 @@
 from groq import Groq
+import sys
+import os
+import json
 
-client = Groq(api_key="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")
+def resource_path(relative_path):
+    """ Get absolute path to resource (works for PyInstaller and IDE) """
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
+
+# Load configuration
+with open(resource_path("config.json"), "r") as f:
+    config = json.load(f)
+
+client = Groq(api_key=config["groq_api_key"])
 
 def ask_pet(prompt):
     try:
@@ -22,6 +35,3 @@ def ask_pet(prompt):
     except Exception as e:
         print("Groq SDK error:", e)
         return "*hiss* Error. Petting privileges revoked."
-
-
-
