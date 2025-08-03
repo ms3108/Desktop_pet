@@ -81,18 +81,32 @@ A cute, animated desktop companion with attitude! This sarcastic cat-shaped pet 
 
 ## ⚙️ Configuration
 
-Create a `config.json` file in the project root:
+Copy `config.json.template` to `config.json` and fill in your API keys:
 
 ```json
 {
-  "groq_api_key": "your_groq_api_key_here",
-  "spotify": {
-    "client_id": "your_spotify_client_id",
-    "client_secret": "your_spotify_client_secret",
-    "redirect_uri": "http://localhost:8080"
-  }
+    "groq_api_key": "YOUR_GROQ_API_KEY_HERE",
+    "spotify_client_id": "YOUR_SPOTIFY_CLIENT_ID_HERE",
+    "spotify_client_secret": "YOUR_SPOTIFY_CLIENT_SECRET_HERE",
+    "spotify_redirect_uri": "http://localhost:8888/callback",
+    "pet_name": "Desktop Pet",
+    "voice_enabled": true,
+    "response_voice": "female",
+    "microphone_timeout": 5,
+    "energy_threshold": 300,
+    "dynamic_energy_threshold": true,
+    "pause_threshold": 0.8,
+    "phrase_time_limit": 5
 }
 ```
+
+### Voice Configuration Options
+- **`voice_enabled`**: Enable/disable voice input (true/false)
+- **`microphone_timeout`**: Seconds to wait for voice input (default: 5)
+- **`energy_threshold`**: Microphone sensitivity (lower = more sensitive, default: 300)
+- **`dynamic_energy_threshold`**: Auto-adjust sensitivity (recommended: true)
+- **`pause_threshold`**: Seconds of silence to end phrase (default: 0.8)
+- **`phrase_time_limit`**: Maximum seconds per voice command (default: 5)
 
 ### API Keys Setup
 
@@ -224,9 +238,51 @@ The executable will be created in the `dist/` folder.
 ### Common Issues
 
 **Voice recognition not working:**
-- Ensure microphone permissions are granted
-- Check that `pyaudio` is properly installed
-- Try running as administrator
+
+#### Quick Fixes
+- Ensure microphone permissions are granted to the application
+- Check that your default microphone is working in other applications
+- Try running the application as administrator
+- Restart the application after connecting/changing microphones
+
+#### Windows-Specific Issues
+- **PyAudio Installation**: Install Microsoft Visual C++ Redistributable if you get PyAudio errors
+- **Microphone Privacy**: Go to Settings > Privacy > Microphone and enable microphone access
+- **Default Device**: Set your preferred microphone as the default recording device in Sound settings
+
+#### Cross-Platform Compatibility
+- **Linux**: Install `portaudio19-dev` and `python3-pyaudio` packages
+- **macOS**: Install PyAudio with `brew install portaudio` then `pip install pyaudio`
+- **Virtual Environments**: Ensure PyAudio is installed in the correct Python environment
+
+#### Voice Configuration Troubleshooting
+If voice input is inconsistent, try adjusting these settings in `config.json`:
+
+```json
+{
+    "voice_enabled": true,
+    "energy_threshold": 4000,          // Higher = less sensitive (try 1000-4000)
+    "dynamic_energy_threshold": false, // Disable auto-adjustment
+    "microphone_timeout": 10,          // Longer timeout for slower systems
+    "pause_threshold": 1.2             // Longer pause detection
+}
+```
+
+#### Testing Voice Input
+The application will show these status messages:
+- `🎤 Testing microphone...` - Initial microphone test
+- `✅ Microphone test successful` - Voice input should work
+- `❌ Microphone test failed` - Check microphone setup
+- `🔇 Voice input disabled` - Check `voice_enabled` in config
+- `🎙️ Listening for voice commands...` - Ready for voice input
+- `🗣️ Heard: 'your command'` - Successfully recognized speech
+
+#### Advanced Troubleshooting
+- **Multiple Microphones**: The app uses the system default - change it in system settings
+- **USB Microphones**: Unplug and reconnect, then restart the application
+- **Bluetooth Headsets**: Ensure they're connected in "Headset" mode, not just "Audio"
+- **Background Noise**: Try using the app in a quieter environment first
+- **Internet Connection**: Voice recognition requires internet for Google Speech API
 
 **Clipboard commands not responding:**
 - Verify clipboard contains text (not images/files)
