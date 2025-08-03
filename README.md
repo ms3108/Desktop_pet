@@ -2,8 +2,6 @@
 
 A cute, animated desktop companion with attitude! This sarcastic cat-shaped pet sits on your desktop, reacts to your music, listens to your voice, and provides witty AI-powered responses. Built with Python and Tkinter, featuring Spotify integration, Groq AI, and advanced clipboard interactions.
 
-![Desktop Pet Demo](assets/demo.gif) <!-- Add a demo GIF if available -->
-
 ---
 
 ## ✨ Features
@@ -25,7 +23,7 @@ A cute, animated desktop companion with attitude! This sarcastic cat-shaped pet 
 ### 💬 **Interactive Features**
 - **Speech Bubbles**: Visual text responses that appear above the pet
 - **Click Interactions**: Click on the pet for random responses
-- **Advanced Clipboard Integration**: 
+- **Advanced Clipboard Integration**:
   - Copy pet responses to clipboard with voice commands
   - Read and analyze clipboard content with AI
   - Smart clipboard text processing
@@ -178,8 +176,8 @@ Desktop_Pet/
 
 The following packages are required:
 
+*Note: `tkinter` is included with most Python installations and usually does not require a separate install.*
 ```
-tkinter          # GUI framework (usually included with Python)
 Pillow           # Image processing
 pyperclip        # Clipboard operations
 groq             # AI API integration
@@ -361,6 +359,3 @@ If you encounter any issues or have questions:
 3. Make sure all dependencies are properly installed
 
 **Enjoy your new sarcastic desktop companion with advanced clipboard powers! 🐱📋**
-#   D e s k t o p _ p e t  
- #   D e s k t o p _ p e t  
- 

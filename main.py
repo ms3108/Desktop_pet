@@ -112,8 +112,6 @@ class DesktopPet:
         bubble.attributes("-topmost", True)
         bubble.after(5000, bubble.destroy)
 
-    TRIGGER_KEYWORD = "tell me"
-
     def handle_voice_input(self, text):
         text = text.lower().strip()
         print("You said:", text)
@@ -143,7 +141,7 @@ class DesktopPet:
             self.lock_computer()
             return
 
-        if "kill yourself" in text or "go to sleep" in text or "exit pet" in text:
+        if "go away" in text or "bye bye" in text or "go to sleep" in text or "exit pet" in text:
             self.show_text_bubble("Goodbye! 👋")
             self.shutdown_pet()
             return
@@ -192,7 +190,7 @@ class DesktopPet:
         animations["idle_alts"] = []
         for i in range(1, 9):
             path = f"assets/idle{i}"
-            if os.path.isdir(path):
+            if os.path.isdir(resource_path(path)):
                 alt_frames = load_frames_from_folder(path)
                 if alt_frames:
                     animations["idle_alts"].append(alt_frames)
