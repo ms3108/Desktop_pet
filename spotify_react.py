@@ -16,8 +16,8 @@ with open(resource_path("config.json"), "r") as f:
 
 
 
-SPOTIFY_CLIENT_ID = config["SPOTIFY_CLIENT_ID"]
-SPOTIFY_CLIENT_SECRET = config["SPOTIFY_CLIENT_SECRET"]
+SPOTIFY_CLIENT_ID = "d883f24b4b2a4478a7a71495fef7ca2a"
+SPOTIFY_CLIENT_SECRET = "d68fb22ba0c04c5985d84a61984b2b8b"
 SPOTIFY_REDIRECT_URI = 'http://127.0.0.1:8000/callback'
 
 
