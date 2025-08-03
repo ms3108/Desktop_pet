@@ -212,14 +212,14 @@ The executable will be created in the `dist/` folder.
 
 ## 🔄 Running on Startup
 
-Make your desktop pet automatically start when you boot your computer! Here are multiple methods depending on your preference:
+Make your desktop pet automatically start when you boot your computer!
 
 ### Method 1: Windows Startup Folder (Recommended)
 
 **For EXE Version:**
 1. Press `Win + R` to open Run dialog
 2. Type `shell:startup` and press Enter
-3. Copy your `main.exe` file to this folder
+3. Cut and paste the shortcut of your `main.exe` file to this folder (you can create shortcut for it by right clicking --> show more options --> create shortcut)
 4. The pet will now start automatically when you log in
 
 **For Python Version:**
@@ -231,107 +231,6 @@ Make your desktop pet automatically start when you boot your computer! Here are 
    ```
 2. Replace `YourUsername` with your actual username
 3. Copy `start_pet.bat` to the startup folder (`shell:startup`)
-
-### Method 2: Task Scheduler (Advanced)
-
-**Advantages:** More control over startup conditions, can run as administrator, can delay startup
-
-1. **Open Task Scheduler:**
-   - Press `Win + R`, type `taskschd.msc`, press Enter
-
-2. **Create Basic Task:**
-   - Click "Create Basic Task" in the right panel
-   - Name: "Desktop Pet Startup"
-   - Description: "Automatically start desktop pet on login"
-
-3. **Set Trigger:**
-   - Choose "When I log on"
-   - Click Next
-
-4. **Set Action:**
-   - Choose "Start a program"
-   - **For EXE:** Browse to your `main.exe` file
-   - **For Python:** 
-     - Program: `python.exe` (or full path like `C:\Python39\python.exe`)
-     - Arguments: `main.py`
-     - Start in: `C:\Users\YourUsername\PycharmProjects\Desktop_Pet`
-
-5. **Advanced Settings (Optional):**
-   - Right-click your task → Properties
-   - **General tab:** Check "Run with highest privileges" if needed
-   - **Conditions tab:** Uncheck "Start the task only if the computer is on AC power"
-   - **Settings tab:** Check "Allow task to be run on demand"
-
-### Method 3: Registry (Expert Users Only)
-
-⚠️ **Warning:** Editing the registry can be dangerous. Create a backup first!
-
-1. Press `Win + R`, type `regedit`, press Enter
-2. Navigate to: `HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run`
-3. Right-click → New → String Value
-4. Name: `DesktopPet`
-5. Value: Full path to your `main.exe` or batch file
-
-### Method 4: Shortcut in Startup Menu
-
-1. Create a shortcut to your `main.exe` or Python script
-2. Right-click the shortcut → Properties
-3. In "Target" field, add startup parameters if needed
-4. Copy shortcut to: `C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp`
-
-### Startup Configuration Tips
-
-**Delay Startup (Recommended):**
-If your computer is slow to boot, add a delay to prevent conflicts:
-
-```batch
-@echo off
-timeout /t 30 /nobreak > nul
-cd /d "C:\Users\YourUsername\PycharmProjects\Desktop_Pet"
-python main.py
-```
-
-**Silent Startup:**
-To hide the command window when using Python version:
-```batch
-@echo off
-cd /d "C:\Users\YourUsername\PycharmProjects\Desktop_Pet"
-pythonw main.py
-```
-
-**Check if Already Running:**
-Prevent multiple instances:
-```batch
-@echo off
-tasklist /fi "imagename eq main.exe" | find /i "main.exe" > nul
-if errorlevel 1 (
-    cd /d "C:\Users\YourUsername\PycharmProjects\Desktop_Pet"
-    start "" "main.exe"
-)
-```
-
-### Troubleshooting Startup Issues
-
-**Pet doesn't start:**
-- Check file paths are correct
-- Ensure `config.json` exists in the same folder
-- Try running manually first to test for errors
-- Check Windows Event Viewer for error messages
-
-**Pet starts but crashes:**
-- Missing `config.json` file
-- API keys not configured
-- Microphone permissions not granted
-- Try adding a delay before startup
-
-**Multiple instances running:**
-- Use the "Check if Already Running" batch script above
-- Or add instance checking to the Python code
-
-**Performance impact:**
-- Use Task Scheduler with conditions to only start when needed
-- Add startup delay to reduce boot time impact
-- Consider disabling voice input on startup if causing issues
 
 ---
 
