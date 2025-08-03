@@ -82,7 +82,6 @@ A cute, animated desktop companion with attitude! This sarcastic cat-shaped pet 
 ## ⚙️ Configuration
 
 Copy `config.json.template` to `config.json` and fill in your API keys:
-
 ```json
 {
     "groq_api_key": "YOUR_GROQ_API_KEY_HERE",
@@ -139,7 +138,7 @@ Copy `config.json.template` to `config.json` and fill in your API keys:
 #### Example Clipboard Workflow:
 1. Copy any text (code, question, article, etc.) to clipboard
 2. Say **"Answer this"** to your pet
-3. Pet reads clipboard content and provides AI-powered analysis/response
+3. Get sarcastic but helpful code analysis
 4. Say **"Copy that"** to copy the pet's response back to clipboard
 
 ### Mouse Interactions
