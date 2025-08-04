@@ -4,8 +4,10 @@ import sys
 import os
 import json
 
-if platform.system() == "Windows":
+try:
     import win32gui
+except ImportError:
+    win32gui = None
 
 import requests
 
@@ -23,8 +25,11 @@ GROQ_API_KEY = config["groq_api_key"]
 
 
 def get_active_window_name():
-    if platform.system() == "Windows":
-        return win32gui.GetWindowText(win32gui.GetForegroundWindow()).lower()
+    if platform.system() == "Windows" and win32gui:
+        try:
+            return win32gui.GetWindowText(win32gui.GetForegroundWindow()).lower()
+        except Exception:
+            return ""
     return ""
 
 

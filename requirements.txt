@@ -5,4 +5,3 @@ spotipy
 SpeechRecognition
 pyaudio
 requests
-pywin32
